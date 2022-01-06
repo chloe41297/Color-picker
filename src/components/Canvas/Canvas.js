@@ -32,8 +32,7 @@ const Canvas = () => {
         hexCode[Math.floor(parseInt(gg) / 16)] + hexCode[parseInt(gg) % 16];
       const BB =
         hexCode[Math.floor(parseInt(bb) / 16)] + hexCode[parseInt(bb) % 16];
-      setHexColor(`#${RR}${GG}${BB}`);
-      console.log(`#${RR}${GG}${BB}`);
+      return `#${RR}${GG}${BB}`;
     }
   };
   const handleChange = (e) => {
@@ -51,16 +50,28 @@ const Canvas = () => {
     const canvas = document.getElementById("myCanvas");
     const ctx = canvas.getContext("2d");
     const image = document.getElementById("myImage");
-    ctx.beginPath();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     const id = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const pixelData = [];
+    const pixelData = {};
     for (let i = 0; i < id.data.length / 4; i += 4) {
-      colorConvertor([id.data[i], id.data[i + 1], id.data[i + 2]]);
-      pixelData.push(hexColor);
-      // pixelData.push([id.data[i], id.data[i + 1], id.data[i + 2]]);
+      let result = colorConvertor([id.data[i], id.data[i + 1], id.data[i + 2]]);
+      if (pixelData.hasOwnProperty(result)) {
+        pixelData[result] += 1;
+      } else {
+        pixelData[result] = 1;
+      }
     }
-    setImgData(pixelData);
+    const sortedPixelData = [];
+    for (let name in pixelData) {
+      sortedPixelData.push([name, pixelData[name]]);
+    }
+    const popColor = sortedPixelData
+      .sort((a, b) => {
+        return b[1] - a[1];
+      })
+      .splice(0, 10);
+    setImgData(popColor);
   }, [imgSrc]);
 
   return (
@@ -70,13 +81,18 @@ const Canvas = () => {
       </form>
       <img src={imgSrc} id="myImage" style={{ width: "300px" }}></img>
       <canvas id="myCanvas"></canvas>
-      <div
-        style={{
-          width: "50px",
-          height: "50px",
-          backgroundColor: "rgb(76, 91, 106)",
-        }}
-      ></div>
+      {imgData.map((list, idx) => (
+        <div
+          key={idx}
+          style={{
+            backgroundColor: `${list[0]}`,
+            width: "50px",
+            height: "50px",
+          }}
+        >
+          {list[0]}
+        </div>
+      ))}
     </section>
   );
 };
