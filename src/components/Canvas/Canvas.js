@@ -1,5 +1,5 @@
+import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import ColorConvertor from "../ColorConvertor/ColorConvertor";
 
 const Canvas = () => {
   const [imgSrc, setImgSrc] = useState("");
@@ -70,30 +70,58 @@ const Canvas = () => {
       .sort((a, b) => {
         return b[1] - a[1];
       })
-      .splice(0, 10);
+      .splice(0, 8);
     setImgData(popColor);
   }, [imgSrc]);
 
   return (
-    <section>
-      <form>
-        <input type="file" accept="image/*" onChange={handleChange} />
-      </form>
-      <img src={imgSrc} id="myImage" style={{ width: "300px" }}></img>
-      <canvas id="myCanvas"></canvas>
-      {imgData.map((list, idx) => (
-        <div
-          key={idx}
-          style={{
-            backgroundColor: `${list[0]}`,
-            width: "50px",
-            height: "50px",
-          }}
-        >
-          {list[0]}
-        </div>
-      ))}
-    </section>
+    <Section>
+      <div>
+        {imgSrc ? "" : <ImgReplacement>이미지를 선택해 주세요!</ImgReplacement>}
+        <img src={imgSrc} id="myImage" style={{ width: "300px" }} />
+        <canvas id="myCanvas" style={{ display: "none" }}></canvas>
+        <form>
+          <input type="file" accept="image/*" onChange={handleChange} />
+        </form>
+      </div>
+
+      <Ul>
+        {imgData.length > 1
+          ? imgData.map((list, idx) => (
+              <li key={idx}>
+                <div
+                  style={{
+                    backgroundColor: `${list[0]}`,
+                    paddingTop: "100%",
+                  }}
+                ></div>
+                <div>{list[0]}</div>
+              </li>
+            ))
+          : ""}
+      </Ul>
+    </Section>
   );
 };
+
+const Section = styled.section`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Ul = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  list-style: none;
+  grid-gap: 5px;
+`;
+const ImgReplacement = styled.div`
+  width: 250px;
+  height: 250px;
+  border: 2px dashed black;
+  line-height: 250px;
+  border-radius: 10px;
+  padding-bottom: 10px;
+`;
+
 export default Canvas;
