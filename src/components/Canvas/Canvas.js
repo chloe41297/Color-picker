@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import { Copy } from "react-feather";
 
 const Canvas = () => {
   const [imgSrc, setImgSrc] = useState("");
@@ -99,7 +100,7 @@ const Canvas = () => {
       <Ul>
         {imgData.length > 1
           ? imgData.map((list, idx) => (
-              <li key={idx} onClick={handleClick} data-id={list[0]}>
+              <Li key={idx} onClick={handleClick} data-id={list[0]}>
                 <div
                   style={{
                     backgroundColor: `${list[0]}`,
@@ -107,7 +108,17 @@ const Canvas = () => {
                   }}
                 ></div>
                 <div>{list[0]}</div>
-              </li>
+                <Span>
+                  <Copy
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      color: "#ffffff",
+                    }}
+                  ></Copy>
+                  <Div>click to copy!</Div>
+                </Span>
+              </Li>
             ))
           : ""}
       </Ul>
@@ -134,5 +145,26 @@ const ImgReplacement = styled.div`
   border-radius: 10px;
   padding-bottom: 10px;
 `;
-
+const Li = styled.li`
+  position: relative;
+  :hover span {
+    visibility: visible;
+  }
+`;
+const Span = styled.span`
+  width: 100%;
+  height: calc(100% - 18px);
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.3);
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  flex-direction: column;
+  visibility: hidden;
+`;
+const Div = styled.div`
+  font-size: 10px;
+  color: #ffffff;
+`;
 export default Canvas;
