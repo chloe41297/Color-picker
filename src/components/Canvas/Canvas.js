@@ -4,7 +4,18 @@ import { useEffect, useState } from "react";
 const Canvas = () => {
   const [imgSrc, setImgSrc] = useState("");
   const [imgData, setImgData] = useState([]);
-  const [hexColor, setHexColor] = useState("");
+
+  const handleClick = (e) => {
+    const currentColor = e.target.closest("li").dataset.id;
+    const textarea = document.createElement("textarea");
+    textarea.value = currentColor;
+
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+  };
   const colorConvertor = (prevColor) => {
     const hexCode = [
       "0",
@@ -88,7 +99,7 @@ const Canvas = () => {
       <Ul>
         {imgData.length > 1
           ? imgData.map((list, idx) => (
-              <li key={idx}>
+              <li key={idx} onClick={handleClick} data-id={list[0]}>
                 <div
                   style={{
                     backgroundColor: `${list[0]}`,
