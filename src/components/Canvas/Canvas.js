@@ -16,6 +16,8 @@ const Canvas = () => {
 
     document.execCommand("copy");
     document.body.removeChild(textarea);
+
+    alert("복사되었습니다");
   };
   const colorConvertor = (prevColor) => {
     const hexCode = [
