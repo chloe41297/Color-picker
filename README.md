@@ -1,4 +1,6 @@
 ## Image color picker app
+[![Netlify Status](https://api.netlify.com/api/v1/badges/aa0d1044-ca62-4e01-b2a9-197935be5809/deploy-status)](https://app.netlify.com/sites/priceless-allen-20dbc7/deploys)
+###  🌐 배포 링크 [바로가기](https://priceless-allen-20dbc7.netlify.app/)
 
 ### Description
 
